@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>飞书多维表格深度分析插件</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/@lark-base-open/js-sdk@latest/dist/umd/index.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/date-fns@2.29.3/index.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- 头部标题 -->
+        <header class="header">
+            <h1>🔍 深度数据分析</h1>
+            <p class="subtitle">智能分析多维表格数据，发现数据洞察</p>
+        </header>
+
+        <!-- 数据源选择区域 -->
+        <section class="data-source-section">
+            <h2>📊 数据源选择</h2>
+            <div class="source-controls">
+                <div class="table-selector">
+                    <label for="tableSelect">选择数据表：</label>
+                    <select id="tableSelect" class="select-input">
+                        <option value="">请选择数据表...</option>
+                    </select>
+                </div>
+                
+                <div class="field-selector">
+                    <label>选择分析字段：</label>
+                    <div id="fieldCheckboxes" class="checkbox-group">
+                        <!-- 动态生成字段复选框 -->
+                    </div>
+                </div>
+
+                <div class="record-range">
+                    <label>数据范围：</label>
+                    <div class="range-controls">
+                        <input type="number" id="startRecord" placeholder="起始行" min="1">
+                        <span>到</span>
+                        <input type="number" id="endRecord" placeholder="结束行" min="1">
+                        <span>（留空表示全部数据）</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 分析类型选择 -->
+        <section class="analysis-type-section">
+            <h2>🎯 分析类型</h2>
+            <div class="analysis-options">
+                <div class="option-group">
+                    <h3>基础统计分析</h3>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="basicStats" checked>
+                        <span>基础统计（计数、求和、平均值等）</span>
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="distribution">
+                        <span>数据分布分析</span>
+                    </label>
+                </div>
+
+                <div class="option-group">
+                    <h3>高级分析</h3>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="correlation">
+                        <span>字段关联性分析</span>
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="trend">
+                        <span>趋势分析（时间序列）</span>
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="outlier">
+                        <span>异常值检测</span>
+                    </label>
+                </div>
+
+                <div class="option-group">
+                    <h3>智能分析</h3>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="aiInsights">
+                        <span>AI智能洞察</span>
+                    </label>
+                    <label class="checkbox-label">
+                        <input type="checkbox" id="prediction">
+                        <span>预测分析</span>
+                    </label>
+                </div>
+            </div>
+        </section>
+
+        <!-- 操作按钮 -->
+        <section class="action-section">
+            <button id="analyzeBtn" class="primary-btn">
+                <span class="btn-icon">🚀</span>
+                开始分析
+            </button>
+            <button id="clearBtn" class="secondary-btn">
+                <span class="btn-icon">🗑️</span>
+                清空结果
+            </button>
+        </section>
+
+        <!-- 分析进度 -->
+        <section id="progressSection" class="progress-section" style="display: none;">
+            <div class="progress-bar">
+                <div id="progressFill" class="progress-fill"></div>
+            </div>
+            <p id="progressText">正在分析数据...</p>
+        </section>
+
+        <!-- 分析结果展示区域 -->
+        <section id="resultsSection" class="results-section" style="display: none;">
+            <h2>📈 分析结果</h2>
+            
+            <!-- 结果摘要 -->
+            <div id="summaryCard" class="result-card">
+                <h3>📋 数据摘要</h3>
+                <div id="summaryContent" class="summary-content">
+                    <!-- 动态生成摘要内容 -->
+                </div>
+            </div>
+
+            <!-- 图表展示区域 -->
+            <div id="chartsContainer" class="charts-container">
+                <!-- 动态生成图表 -->
+            </div>
+
+            <!-- 详细分析结果 -->
+            <div id="detailsCard" class="result-card">
+                <h3>📊 详细分析</h3>
+                <div id="detailsContent" class="details-content">
+                    <!-- 动态生成详细分析内容 -->
+                </div>
+            </div>
+
+            <!-- AI洞察 -->
+            <div id="aiInsightsCard" class="result-card" style="display: none;">
+                <h3>🤖 AI智能洞察</h3>
+                <div id="aiInsightsContent" class="ai-insights-content">
+                    <!-- AI分析结果 -->
+                </div>
+            </div>
+
+            <!-- 导出选项 -->
+            <div class="export-section">
+                <h3>💾 导出分析结果</h3>
+                <div class="export-buttons">
+                    <button id="exportJsonBtn" class="export-btn">
+                        <span class="btn-icon">📄</span>
+                        导出JSON
+                    </button>
+                    <button id="exportCsvBtn" class="export-btn">
+                        <span class="btn-icon">📊</span>
+                        导出CSV
+                    </button>
+                    <button id="exportReportBtn" class="export-btn">
+                        <span class="btn-icon">📑</span>
+                        生成报告
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- 帮助信息 -->
+        <section class="help-section">
+            <details>
+                <summary>❓ 使用帮助</summary>
+                <div class="help-content">
+                    <h4>如何使用：</h4>
+                    <ol>
+                        <li>选择要分析的数据表</li>
+                        <li>勾选需要分析的字段</li>
+                        <li>选择分析类型</li>
+                        <li>点击"开始分析"按钮</li>
+                        <li>查看分析结果并导出</li>
+                    </ol>
+                    
+                    <h4>分析类型说明：</h4>
+                    <ul>
+                        <li><strong>基础统计：</strong>计算字段的基本统计信息</li>
+                        <li><strong>数据分布：</strong>分析数据的分布情况</li>
+                        <li><strong>关联性分析：</strong>发现字段间的关联关系</li>
+                        <li><strong>趋势分析：</strong>分析时间序列数据的趋势</li>
+                        <li><strong>异常值检测：</strong>识别数据中的异常值</li>
+                        <li><strong>AI智能洞察：</strong>基于AI的深度分析</li>
+                    </ul>
+                </div>
+            </details>
+        </section>
+    </div>
+
+    <!-- 加载脚本 -->
+    <script src="analysis-engine.js"></script>
+    <script src="chart-utils.js"></script>
+    <script src="main.js"></script>
+</body>
+</html>

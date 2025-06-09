@@ -1,0 +1,86 @@
+{
+  "name": "feishu-analysis-plugin",
+  "version": "1.0.0",
+  "description": "飞书多维表格深度分析插件 - 提供数据统计、分布分析、关联性分析、趋势分析等功能",
+  "main": "index.html",
+  "scripts": {
+    "start": "python -m http.server 8000",
+    "build": "echo 'No build process needed for this static plugin'",
+    "deploy": "echo 'Please upload files to your hosting service'",
+    "test": "echo 'No tests specified'"
+  },
+  "keywords": [
+    "feishu",
+    "lark",
+    "multidimensional-table",
+    "data-analysis",
+    "statistics",
+    "visualization",
+    "plugin",
+    "飞书",
+    "多维表格",
+    "数据分析"
+  ],
+  "author": "Your Name",
+  "license": "MIT",
+  "dependencies": {
+    "@lark-base-open/js-sdk": "latest"
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/feishu-analysis-plugin.git"
+  },
+  "bugs": {
+    "url": "https://github.com/yourusername/feishu-analysis-plugin/issues"
+  },
+  "homepage": "https://github.com/yourusername/feishu-analysis-plugin#readme",
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ],
+  "feishu": {
+    "plugin": {
+      "name": "深度数据分析插件",
+      "description": "对多维表格数据进行深度分析，包括统计分析、分布分析、关联性分析、趋势分析等",
+      "version": "1.0.0",
+      "author": "Your Name",
+      "permissions": [
+        "base.read",
+        "table.read",
+        "record.read",
+        "field.read"
+      ],
+      "entry": "index.html",
+      "icon": "🔍",
+      "categories": [
+        "数据分析",
+        "统计工具",
+        "可视化"
+      ],
+      "supportedFieldTypes": [
+        "text",
+        "number",
+        "singleSelect",
+        "multiSelect",
+        "date",
+        "checkbox",
+        "user",
+        "phone",
+        "url",
+        "attachment",
+        "link",
+        "formula",
+        "createdTime",
+        "modifiedTime",
+        "createdUser",
+        "modifiedUser"
+      ],
+      "minTableVersion": "1.0.0"
+    }
+  }
+}
